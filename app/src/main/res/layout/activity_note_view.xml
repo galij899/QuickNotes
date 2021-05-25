@@ -13,6 +13,14 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="TextView"
-      tools:layout_editor_absoluteX="189dp"
-      tools:layout_editor_absoluteY="293dp" />
+      tools:layout_editor_absoluteX="176dp"
+      tools:layout_editor_absoluteY="259dp" />
+
+  <Button
+      android:id="@+id/delete_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Delete"
+      tools:layout_editor_absoluteX="158dp"
+      tools:layout_editor_absoluteY="557dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

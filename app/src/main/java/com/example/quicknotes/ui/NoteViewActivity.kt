@@ -4,22 +4,28 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quicknotes.MainActivity
 import com.example.quicknotes.R
 import com.example.quicknotes.models.Record
+import com.example.quicknotes.ui.notes.readJson
+import com.example.quicknotes.ui.notes.writeJson
 
 class NoteViewActivity : AppCompatActivity() {
 
     companion object {
+        const val EXTRA_ID = -1
         const val EXTRA_TITLE = "title"
-        const val EXTRA_URL = "text"
+        const val EXTRA_TEXT = "text"
 
         fun newIntent(context: Context, recipe: Record): Intent {
             val detailIntent = Intent(context, NoteViewActivity::class.java)
 
-            detailIntent.putExtra(EXTRA_TITLE, recipe.title)
-            detailIntent.putExtra(EXTRA_URL, recipe.text)
+            detailIntent.putExtra("EXTRA_TITLE", recipe.title)
+            detailIntent.putExtra("EXTRA_TEXT", recipe.text)
+            detailIntent.putExtra("EXTRA_ID", recipe.id.toInt())
 
             return detailIntent
         }
@@ -36,8 +42,18 @@ class NoteViewActivity : AppCompatActivity() {
 
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
 
-        val title = intent.extras?.getString(EXTRA_TITLE)
-        val url = intent.extras?.getString(EXTRA_URL)
+        val title = intent.extras?.getString("EXTRA_TITLE")
+        val text = intent.extras?.getString("EXTRA_TEXT")
+        val id = intent.extras?.getInt("EXTRA_ID")
+
+        val deleteButton: Button = findViewById(R.id.delete_button)
+
+        deleteButton.setOnClickListener {
+            val currList = readJson(applicationContext)
+            currList.removeAll{ it.id == id }
+            writeJson(currList, context = applicationContext)
+            onBackPressed()
+        }
 
         setTitle(title)
     }
