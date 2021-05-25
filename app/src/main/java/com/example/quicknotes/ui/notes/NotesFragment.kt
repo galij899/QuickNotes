@@ -1,25 +1,24 @@
 package com.example.quicknotes.ui.notes
 
-import android.R.layout
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
-import android.widget.ArrayAdapter
-import androidx.core.app.ActivityCompat.recreate
-import com.example.quicknotes.MainActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.quicknotes.CreateNoteActivity
 import com.example.quicknotes.adapters.NoteAdapter
 import com.example.quicknotes.databinding.NotesFragmentBinding
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.example.quicknotes.models.Record
 import com.example.quicknotes.ui.NoteViewActivity
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.InputStream
+
 
 fun checkFile(context: Context) {
     var fileObject = File(context.getFilesDir().getPath().toString() + "notes.json")
@@ -93,6 +92,13 @@ class NotesFragment : Fragment() {
             val detailIntent = NoteViewActivity.newIntent(activity!!, selectedNote)
 
             startActivity(detailIntent)
+        }
+
+        val createButton = binding.createButton
+
+        createButton.setOnClickListener {
+            val myIntent = Intent(activity!!, CreateNoteActivity::class.java)
+            this.startActivity(myIntent)
         }
 
         return root
