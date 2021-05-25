@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.ArrayAdapter
+import androidx.core.app.ActivityCompat.recreate
+import com.example.quicknotes.MainActivity
 import com.example.quicknotes.adapters.NoteAdapter
 import com.example.quicknotes.databinding.NotesFragmentBinding
 import com.google.gson.Gson
@@ -18,7 +20,6 @@ import com.example.quicknotes.models.Record
 import com.example.quicknotes.ui.NoteViewActivity
 import java.io.File
 import java.io.InputStream
-import kotlin.reflect.typeOf
 
 fun checkFile(context: Context) {
     var fileObject = File(context.getFilesDir().getPath().toString() + "notes.json")
