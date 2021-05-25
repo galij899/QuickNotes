@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.ArrayAdapter
+import com.example.quicknotes.adapters.NoteAdapter
 import com.example.quicknotes.databinding.NotesFragmentBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -49,18 +50,7 @@ class NotesFragment : Fragment() {
 
         val recordArray = readJson()
 
-        val listItems = arrayOfNulls<String>(recordArray.size)
-
-        for (i in 0 until recordArray.size) {
-            val record = recordArray[i]
-            listItems[i] = record.title
-        }
-
-        val adapter = ArrayAdapter(
-            activity!!,
-            android.R.layout.simple_list_item_1,
-            listItems
-        )
+        val adapter = NoteAdapter(activity!!, recordArray)
         listView.adapter = adapter
 
         return root
