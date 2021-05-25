@@ -14,13 +14,14 @@ import com.example.quicknotes.databinding.NotesFragmentBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.example.quicknotes.models.Record
+import com.example.quicknotes.ui.NoteViewActivity
 import kotlin.reflect.typeOf
 
 fun readJson(): List<Record> {
     val jsonList =
-        """[{"title": "Kotlin Tutorial", "author": "bezkoder", "text" : "sometext"},
-            {"title": "Kotlin Tutorial", "author": "bezkoder", "text" : "sometext"},
-            {"title": "Kotlin Tutorial", "author": "bezkoder", "text" : "sometext"}]""".trimMargin()
+        """[{"title": "Kotlin Tutorial1", "author": "bezkoder", "text" : "sometext"},
+            {"title": "Kotlin Tutorial2", "author": "bezkoder", "text" : "sometext"},
+            {"title": "Kotlin Tutorial3", "author": "bezkoder", "text" : "sometext"}]""".trimMargin()
 
     val gson = Gson()
 
@@ -52,6 +53,14 @@ class NotesFragment : Fragment() {
 
         val adapter = NoteAdapter(activity!!, recordArray)
         listView.adapter = adapter
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val selectedNote = recordArray[position]
+
+            val detailIntent = NoteViewActivity.newIntent(activity!!, selectedNote)
+
+            startActivity(detailIntent)
+        }
 
         return root
     }
