@@ -7,19 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.quicknotes.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.quicknotes.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:name="com.example.quicknotes.ui.notes.NotesFragment"
+        android:label="@string/title_notes"
+        tools:layout="@layout/notes_fragment" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.quicknotes.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/title_account"
         tools:layout="@layout/fragment_notifications" />
 </navigation>
