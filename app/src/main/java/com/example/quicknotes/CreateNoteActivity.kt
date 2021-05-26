@@ -40,12 +40,12 @@ class CreateNoteActivity : AppCompatActivity() {
                     errors.text = "Введите текст заметки"
                 } else {
                     val recordsList = readJson(applicationContext)
-                    val allIds = recordsList.map { it.id }
+                    val allIds = recordsList.map { it.note_id }
                     val maxOrNull = allIds.maxOrNull()
                     val maxId = if (maxOrNull != null) maxOrNull + 1 else 1
 
                     val newRecord = Record(
-                        id = maxId,
+                        note_id = maxId,
                         title = titleField.text.toString(),
                         text = textField.text.toString(),
                         author = "author1"

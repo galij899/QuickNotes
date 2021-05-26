@@ -25,7 +25,7 @@ class NoteViewActivity : AppCompatActivity() {
 
             detailIntent.putExtra("EXTRA_TITLE", recipe.title)
             detailIntent.putExtra("EXTRA_TEXT", recipe.text)
-            detailIntent.putExtra("EXTRA_ID", recipe.id.toInt())
+            detailIntent.putExtra("EXTRA_ID", recipe.note_id.toInt())
 
             return detailIntent
         }
@@ -50,7 +50,7 @@ class NoteViewActivity : AppCompatActivity() {
 
         deleteButton.setOnClickListener {
             val currList = readJson(applicationContext)
-            currList.removeAll{ it.id == id }
+            currList.removeAll{ it.note_id == id }
             writeJson(currList, context = applicationContext)
             onBackPressed()
         }

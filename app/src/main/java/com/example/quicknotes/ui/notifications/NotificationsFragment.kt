@@ -13,8 +13,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.quicknotes.databinding.FragmentNotificationsBinding
+import com.example.quicknotes.models.Record
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.File
+import java.io.InputStream
 
 
 class NotificationsFragment : Fragment() {
@@ -74,23 +79,47 @@ class NotificationsFragment : Fragment() {
             "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0"
         )
 
-        val bodyJson = """{
-            "username": "${username}",
-            "password": "${password}"
-        }"""
+        val inputStream: InputStream = File(context!!.getFilesDir().getPath().toString() + "notes.json").inputStream()
+        val jsonString = inputStream.bufferedReader().use { it.readText() }
 
-        Fuel.post(baseUrl + "login").body(bodyJson).response { _, response, result ->
+        val token = GetPreference("token")
+
+        val bodyJson = """{"token": "${token}",
+            "notes": ${jsonString}}
+            """.trimIndent()
+
+        Fuel.post(baseUrl + "post_notes").body(bodyJson).response { _, response, result ->
             result.fold(
                 { str ->
-                    val token = String(result.get())
-                    SavePreferences("token", token)
-                    SavePreferences("username", username)
+                    println("OK")
                 },
                 { fuelError ->
                     println("got error: $fuelError")
                 })
         }
-        println("Logged in")
+        println("Notes posted")
+    }
+
+    fun get_notes() {
+        FuelManager.instance.baseHeaders = mapOf(
+            "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0"
+        )
+        val token = GetPreference("token")
+
+        Fuel.post(baseUrl + "get_notes").body(token).response { _, response, result ->
+            result.fold(
+                { str ->
+                    val jsonString = String(result.get())
+                    print(jsonString)
+                    val myFile = File(context!!.getFilesDir().getPath().toString() + "notes.json")
+                    myFile.writeText(jsonString)
+                    println("OK")
+                },
+                { fuelError ->
+                    println("got error: $fuelError")
+                })
+        }
+        println("Notes downloaded")
     }
 
     override fun onCreateView(
@@ -114,6 +143,18 @@ class NotificationsFragment : Fragment() {
 
         login_button.setOnClickListener {
             login(login_input.text.toString(), password_input.text.toString())
+        }
+
+        val post_button: Button = binding.postButton
+
+        post_button.setOnClickListener {
+            post_notes()
+        }
+
+        val get_button: Button = binding.getButton
+
+        get_button.setOnClickListener {
+            get_notes()
         }
 
         return root
