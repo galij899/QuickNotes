@@ -10,9 +10,17 @@ import com.example.quicknotes.ui.notes.readJson
 import com.example.quicknotes.ui.notes.writeJson
 
 class CreateNoteActivity : AppCompatActivity() {
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_note)
+
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
 
         val submitButton = findViewById<Button>(R.id.create)
         val titleField = findViewById<EditText>(R.id.title)
@@ -33,7 +41,8 @@ class CreateNoteActivity : AppCompatActivity() {
                 } else {
                     val recordsList = readJson(applicationContext)
                     val allIds = recordsList.map { it.id }
-                    val maxId = allIds.maxOrNull() ?: 0 + 1
+                    val maxOrNull = allIds.maxOrNull()
+                    val maxId = if (maxOrNull != null) maxOrNull + 1 else 1
 
                     val newRecord = Record(
                         id = maxId,
@@ -44,6 +53,7 @@ class CreateNoteActivity : AppCompatActivity() {
 
                     recordsList.add(newRecord)
                     writeJson(recordsList, applicationContext)
+                    onBackPressed()
                 }
             }
 

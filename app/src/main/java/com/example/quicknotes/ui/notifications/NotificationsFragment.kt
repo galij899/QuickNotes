@@ -1,6 +1,9 @@
 package com.example.quicknotes.ui.notifications
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.quicknotes.R
 import com.example.quicknotes.databinding.FragmentNotificationsBinding
+
 
 class NotificationsFragment : Fragment() {
 
@@ -31,10 +35,16 @@ class NotificationsFragment : Fragment() {
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        val username: TextView = binding.username
+
+        val sharedPreference =  activity!!.getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
+        var editor = sharedPreference.edit()
+
+        editor.putString("username","Anupam")
+        editor.commit()
+
+        username.text = sharedPreference.getString("username","111")
+
         return root
     }
 
