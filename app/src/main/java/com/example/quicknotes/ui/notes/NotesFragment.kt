@@ -27,9 +27,7 @@ fun checkFile(context: Context) {
     if (!fileExists) {
         fileObject.createNewFile()
 //        val value = mutableListOf<Record>()
-        val jsonString = """[{"note_id": 1, "title": "Kotlin Tutorial1", "author": "bezkoder", "text" : "sometext"},
-            {"note_id": 2, "title": "Kotlin Tutorial2", "author": "bezkoder", "text" : "sometext"},
-            {"note_id": 3, "title": "Kotlin Tutorial3", "author": "bezkoder", "text" : "sometext"}]"""
+        val jsonString = """[{"note_id": 1, "title": "Welcome to QuickNotes", "author": "Me", "text" : "QuickNotes is an app to keep all your notes!"}]"""
 
         val gson = Gson()
 

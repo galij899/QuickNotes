@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.quicknotes.ui.notifications.NotificationsFragment"
+        android:name="com.example.quicknotes.ui.account.NotificationsFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

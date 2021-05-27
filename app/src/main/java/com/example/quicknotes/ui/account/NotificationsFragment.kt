@@ -1,9 +1,9 @@
-package com.example.quicknotes.ui.notifications
+package com.example.quicknotes.ui.account
 
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +13,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.quicknotes.databinding.FragmentNotificationsBinding
-import com.example.quicknotes.models.Record
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelManager
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.InputStream
 
@@ -71,7 +68,33 @@ class NotificationsFragment : Fragment() {
                     println("got error: $fuelError")
                 })
         }
+        Log.d("Accounts:", "Logged in ${username}")
         println("Logged in")
+    }
+
+    fun register(username: String, password: String) {
+        FuelManager.instance.baseHeaders = mapOf(
+            "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0"
+        )
+
+        val bodyJson = """{
+            "username": "${username}",
+            "password": "${password}"
+        }"""
+
+        Fuel.post(baseUrl + "register").body(bodyJson).response { _, response, result ->
+            result.fold(
+                { str ->
+                    val token = String(result.get())
+                    SavePreferences("token", token)
+                    SavePreferences("username", username)
+                },
+                { fuelError ->
+                    println("got error: $fuelError")
+                })
+        }
+        Log.d("Accounts:", "Registered ${username}")
+        println("Registered")
     }
 
     fun post_notes() {
@@ -97,6 +120,7 @@ class NotificationsFragment : Fragment() {
                     println("got error: $fuelError")
                 })
         }
+        Log.d("Accounts:", "Notes posted")
         println("Notes posted")
     }
 
@@ -119,6 +143,7 @@ class NotificationsFragment : Fragment() {
                     println("got error: $fuelError")
                 })
         }
+        Log.d("Accounts:", "Notes downloaded")
         println("Notes downloaded")
     }
 
@@ -135,14 +160,36 @@ class NotificationsFragment : Fragment() {
 
         val username: TextView = binding.username
 
-        username.text = GetPreference("username")
+        if (GetPreference("username") == "") {
+            username.text = "Login to sync your notes"
+        }else {
+            username.text = "You are logged in as " + GetPreference("username")
+        }
 
         val login_input: EditText = binding.loginInput
         val password_input: EditText = binding.passwordInput
         val login_button: Button = binding.loginButton
 
+        val switchLogin = binding.switch1
+
+        var buttonStateLogin = false
+
+        switchLogin.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                buttonStateLogin = true
+                login_button.text = "register"
+            }else{
+                buttonStateLogin = false
+                login_button.text = "login"
+            }
+        }
+
         login_button.setOnClickListener {
-            login(login_input.text.toString(), password_input.text.toString())
+            if (buttonStateLogin) {
+                register(login_input.text.toString(), password_input.text.toString())
+            }else {
+                login(login_input.text.toString(), password_input.text.toString())
+            }
         }
 
         val post_button: Button = binding.postButton
@@ -156,6 +203,7 @@ class NotificationsFragment : Fragment() {
         get_button.setOnClickListener {
             get_notes()
         }
+
 
         return root
     }

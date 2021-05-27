@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.NoteViewActivity">
 
+  <TextView
+      android:id="@+id/titlefield"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_marginTop="16dp"
+      android:padding="15px"
+      android:text="Title"
+      android:gravity="center"
+      android:textAppearance="@style/TextAppearance.AppCompat.Large"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:layout_editor_absoluteX="20dp" />
 
   <TextView
-      android:id="@+id/textView"
-      android:layout_width="wrap_content"
+      android:id="@+id/textbody"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="TextView"
-      tools:layout_editor_absoluteX="176dp"
-      tools:layout_editor_absoluteY="259dp" />
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="70dp"
+      android:text="Text"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
   <Button
       android:id="@+id/delete_button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginStart="160dp"
       android:text="Delete"
-      tools:layout_editor_absoluteX="158dp"
-      tools:layout_editor_absoluteY="557dp" />
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.887" />
 </androidx.constraintlayout.widget.ConstraintLayout>

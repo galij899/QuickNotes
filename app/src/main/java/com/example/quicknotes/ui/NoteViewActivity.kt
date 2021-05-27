@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quicknotes.MainActivity
 import com.example.quicknotes.R
@@ -45,6 +46,11 @@ class NoteViewActivity : AppCompatActivity() {
         val title = intent.extras?.getString("EXTRA_TITLE")
         val text = intent.extras?.getString("EXTRA_TEXT")
         val id = intent.extras?.getInt("EXTRA_ID")
+
+        val titlefield: TextView = findViewById(R.id.titlefield)
+        titlefield.text = title
+        val textbody: TextView = findViewById(R.id.textbody)
+        textbody.text = text
 
         val deleteButton: Button = findViewById(R.id.delete_button)
 

@@ -47,11 +47,11 @@ class NoteAdapter(
         // Get detail element
         val noteTextView = rowView.findViewById(R.id.note_text) as TextView
 
-        val recipe = getItem(position) as Record
+        val note = getItem(position) as Record
 
-        noteNameView.text = recipe.title
-        noteAuthorView.text = recipe.author
-        noteTextView.text = recipe.text
+        noteNameView.text = note.title
+        noteAuthorView.text = note.author
+        noteTextView.text = note.text
 
         return rowView
     }
